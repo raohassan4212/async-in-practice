@@ -30,19 +30,19 @@ fn get_two_site() {
 
 // async
 async fn get_two_site_with_async() {
-    let future1 = task_one();
-    let future2 = task_two();
+    let future1 = task_one("task one");
+    let future2 = task_two("task two");
     join!(future1,future2);
 }
 
-async fn task_one() {
+async fn task_one(text: &str) {
     thread::sleep(Duration::from_secs(5));
-        println!("Task One");
+        println!("{}",text);
 }
 
-async fn task_two() {
+async fn task_two(text: &str) {
     thread::sleep(Duration::from_secs(2));
-        println!("Task Two");
+        println!("{}",text);
 }
 
 // Learn_Sing and Dancing examlpe
