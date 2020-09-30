@@ -2,13 +2,16 @@ use std::thread;
 use std::time::Duration;
 use futures::executor::block_on;
 use futures::join;
+use async_std::task;
 
 fn main() {
-    println!("Hello, world!");
-    get_two_site();
+    // println!("Hello, world!");
+    // get_two_site();
 
-    block_on(get_two_site_with_async());
-    block_on(async_main());
+    // block_on(get_two_site_with_async());
+    // block_on(async_main());
+    // calling negate
+    block_on(f());
 
 }
 
@@ -70,4 +73,21 @@ async fn async_main() {
     let f2 = dance();
     
     join!(f1,f2);
+}
+
+// Negate example
+
+async fn negate_async(n: i32) -> i32 {
+    println!("Negate Value is: {}",n);
+    task::sleep(Duration::from_secs(2)).await;
+    println!("Negating is finished: {}!",n);
+    n * -1
+}
+
+async fn f() -> i32 {
+    let negate = negate_async(1);
+    let negate_task = task::spawn(negate_async(2));
+    task::sleep(Duration::from_secs(1)).await;
+    negate.await + negate_task.await
+
 }
