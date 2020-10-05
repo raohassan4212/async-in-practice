@@ -118,29 +118,57 @@
 // async fn load_data() {
 //     join!(load_f1(),load_f2()); 
 // }
+//  
 
-use std::time::Duration;
-use std::thread;
+// Read file example
+// use std::time::Duration;
+// use std::thread;
+// use async_std::task;
+// use futures::executor::block_on;
+// use futures::join;
+
+// mod file;
+
+// fn main() {
+//     block_on(load_file());
+// }
+
+// async fn load1() {
+//     let r1 = file::read_file("src/t1.txt").await;
+//     println!("Result of file 1 {}",r1.unwrap().len());
+// }
+
+// async fn load2() {
+//     let r2 = file::read_file("src/t2.txt").await;
+//     println!("Result of file 2 {}",r2.unwrap().len());
+// }
+
+// async fn load_file() {
+//     join!(load1(),load2());
+// }
+
+
 use async_std::task;
-use futures::executor::block_on;
 use futures::join;
+use futures::executor::block_on;
 
 mod file;
 
 fn main() {
-    block_on(load_file());
+    task::block_on(load_file());
 }
 
-async fn load1() {
+async fn load_01() {
     let r1 = file::read_file("src/t1.txt").await;
-    println!("Result of file 1 {}",r1.unwrap().len());
+    println!("Result of file 1: {:?}",r1);
 }
 
-async fn load2() {
+async fn load_02() {
     let r2 = file::read_file("src/t2.txt").await;
-    println!("Result of file 2 {}",r2.unwrap().len());
+    println!("Result of file 2: {}",r2.unwrap().len());
 }
 
 async fn load_file() {
-    join!(load1(),load2());
+    join!(load_01(),load_02());
 }
+
